@@ -15,6 +15,37 @@
 
 ![](./images/pic2.png)
 
+## 安裝
+
+```python
+pip install "fastapi[all]"
+```
+
+## 簡單測試
+
+```python
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+```
+
+- main:app 代表執行main.py 內app實體
+- --reload: 開發模式時使用.程式內容更改時,重新起動.
+
+```python
+#執行
+uvicorn main:app --reload
+```
+
+
+
 
 
 
