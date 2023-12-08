@@ -100,18 +100,46 @@ asyn def root():
 ```
 
 ## Path Parameters(路徑參數)
+- function 參數使用type hint很重要
+- 網址路徑,query參數的寫法為q=45&g=weight
 
 ```python
-
+from typing import Union
 from fastapi import FastAPI
+
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"Hello":"World"}
 
-@app.get("/items/{item_id}")
-async def read_item(item_id):
-    return {"item_id": item_id}
-
+#網址的呼叫為http://網址/item/5?q=45&g=weight
+@app.get("/item/{item_id}")
+def read_item(item_id: int,q: int | None = None,g:str | None = None):
+    return {"item_id":item_id,
+             "q":q,
+             "g":g,
+            }
 ```
 
+> 結果如下
+![](./images/pic3.png)
 
+### 提供的測試Api如下(介面提供是Swagger UI):
+
+```
+http://127.0.0.1:8000/docs
+```
+
+> 結果如下
+![](./images/pic4.png)
+
+### 提供的測試Api如下(介面提供是ReDoc)
+
+```
+http://127.0.0.1:8000/redoc
+```
+
+>結果如下
+![](./images/pic5.png)
