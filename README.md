@@ -1,7 +1,7 @@
 # FastApi
 - ### 快速建立ＷebApi,符合Open API規格
 - ### 支援python3.7以上,建議python3.10
-- ### 先了解python type,pydantic
+- ### 先了解python typehint,pydantic
 
 ## 自動產生open api docs
 
@@ -18,7 +18,7 @@
 ## 安裝
 
 ```python
-pip install "fastapi[all]"
+pip install fastapi[all]
 ```
 
 ## 簡單測試
