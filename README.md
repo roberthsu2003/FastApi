@@ -9,11 +9,11 @@
 
 ### swager UI(/docs)
 
-![](./images/pic1.png)
+![](images/pic1.png)
 
 ### Redoc(/redoc)
 
-![](./images/pic2.png)
+![](images/pic2.png)
 
 ## 安裝
 
@@ -133,7 +133,7 @@ http://127.0.0.1:8000/docs
 ```
 
 > 結果如下
-![](./images/pic4.png)
+![](images/pic4.png)
 
 ### 提供的測試Api如下(介面提供是ReDoc)
 
@@ -142,4 +142,4 @@ http://127.0.0.1:8000/redoc
 ```
 
 >結果如下
-![](./images/pic5.png)
+![](images/pic5.png)
