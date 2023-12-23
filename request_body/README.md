@@ -118,6 +118,49 @@ curl -X 'POST' \
 {"name":"iphone手機","desccription":"中古2年","price":23500.0,"tax":1200.0,"price_with_tax":24700.0}
 ```
 
+### Request Body + 路徑參數(path parameter)
+
+```
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name:str
+    desccription: str | None = None
+    price:float
+    tax:float
+
+app = FastAPI()
+
+@app.put("/items/{item_id}")
+async def create_item(item_id:int, item:Item):    
+    return {"itme_id":item_id, **item.model_dump()}
+```
+
+![](./images/pic6.png)
+![](./images/pic7.png)
+### Request Body + 路徑參數(Path Parameter) + 詢問參數(Query Parameter)
+
+```
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name:str
+    desccription: str | None = None
+    price:float
+    tax:float
+
+app = FastAPI()
+
+@app.put("/items/{item_id}")
+async def create_item(item_id:int, item:Item,q:str | None = None):
+    result = {"item_id":item_id, **item.model_dump()}
+    if q:
+        result.update({"q":q})
+    return result
+```
+
 
 
 
