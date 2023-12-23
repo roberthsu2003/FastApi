@@ -15,4 +15,5 @@
 ![](./images/pic2.png)
 
 ## 1. [起手式](./起手式)
-## 2. [路徑參數(Path Paramater)](./路徑參數)
+## 2. [路徑參數(Path Parameter)](./path_parameter)
+## 3. [詢問參數(Query Parameter)](./query_parameter)
