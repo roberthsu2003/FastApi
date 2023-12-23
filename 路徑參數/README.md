@@ -88,6 +88,56 @@ curl -X 'GET' 'http://127.0.0.1:8000/users/me'
 
 ```
 
+### 路徑參數預先設定限定值
+
+```
+from fastapi import FastAPI
+from enum import Enum
+
+class ModelName(str,Enum):
+    '''
+    下面3個是machine learning models名稱
+    python3.4以後可以使用Enum
+    '''
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
+
+
+app = FastAPI()
+
+@app.get("/models/{model_name}")
+async def get_model(model_name:ModelName):
+    if model_name is ModelName.alexnet:
+        return {"model_name":model_name, "message":"Deep Learing FTW!"}
+    if model_name.value  == "lenet":
+        return {"model_name":model_name, "message":"LeCNN all the images"}
+    return {"model_name":model_name, "message":"Have some residuals"}
+    
+#================結果
+curl -X 'GET' 'http://127.0.0.1:8000/models/alexnet'
+
+{"model_name":"alexnet","message":"Deep Learing FTW!"}
+
+#================結果
+curl -X 'GET' 'http://127.0.0.1:8000/models/lenet'
+
+{"model_name":"lenet","message":"LeCNN all the images"}
+
+#================結果
+curl -X 'GET' 'http://127.0.0.1:8000/models/resnet'
+
+{"model_name":"resnet","message":"Have some residuals"}
+
+#================結果
+
+curl -X 'GET' 'http://127.0.0.1:8000/models/abc' 
+
+錯誤訊息:
+"msg":"Input should be 'alexnet', 'resnet' or 'lenet'"    
+
+```
+
 
 
 
