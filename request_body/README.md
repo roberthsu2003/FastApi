@@ -93,7 +93,7 @@ async def create_item(item:Item):
 
 #### 測試
 
-![](./images/pic6.png)
+![](./images/pic4.png)
 
 #### 驗證
 
