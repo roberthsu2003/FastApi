@@ -69,10 +69,13 @@ async def read_item(item_id:str, q:str | None = None):
     return {'item_id': item_id} 
 ```
 
->> 注意 @app.get("/items/{item_id}") --> 後面沒有(/)斜線
->> 呼叫要用 curl -X 'GET' 'http://127.0.0.1:8000/items/robert?q=nice'
->> @app.get("/items/{item_id}/") --> 後面有(/)斜線
->> 呼叫要用 curl -X 'GET' 'http://127.0.0.1:8000/items/robert/?q=nice'
+> 注意 @app.get("/items/{item_id}") --> 後面沒有(/)斜線
+
+> 呼叫要用 curl -X 'GET' 'http://127.0.0.1:8000/items/robert?q=nice'
+
+> @app.get("/items/{item_id}/") --> 後面有(/)斜線
+
+> 呼叫要用 curl -X 'GET' 'http://127.0.0.1:8000/items/robert/?q=nice'
 
 ### 呼叫1
 
