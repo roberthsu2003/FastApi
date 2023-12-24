@@ -5,6 +5,7 @@
 - ### 先了解python typehint,pydantic
 - ### 架構於starlette(ASGI Framework)上
 - ### uvicorn ASGI web server implementation for Python.
+- ### 安裝vscode套件[Thunder Client](https://www.thunderclient.com/)
 
 ### swager UI(/docs)
 
