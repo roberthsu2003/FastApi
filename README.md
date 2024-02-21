@@ -15,6 +15,12 @@
 
 ![](./images/pic2.png)
 
+### 在server上執行的指令
+
+```
+$ uvicorn index:app --host 0.0.0.0 --port 80
+```
+
 ## 1. [起手式](./起手式)
 ## 2. [路徑參數(Path Parameter)](./path_parameter)
 ## 3. [詢問參數(Query Parameter)](./query_parameter)
