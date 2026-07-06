@@ -25,6 +25,8 @@
 3. 🔍 **[詢問參數 (Query Parameter)](./03_詢問參數_query_parameter)** - 處理 URL 查詢參數與型別自動轉換
 4. 📦 **[Request Body (請求體)](./04_請求體_request_body)** - 利用 Pydantic BaseModel 定義與接收 JSON 資料
 5. 💡 **[實際案例 (Real Cases)](./05_實際案例)** - 結合 SQLite 的物聯網 (IoT) 數據上傳與管理專案
+6. 🔗 **[依賴注入 (Dependency Injection)](./06_依賴注入_dependency_injection)** - 核心機制，重用邏輯與管理資源生命週期
+7. 🛡️ **[跨來源資源共用 (CORS)](./07_跨來源資源共用_cors)** - 解決前後端分離開發時的跨網域請求問題
 
 ---
 
