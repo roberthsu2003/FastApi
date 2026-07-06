@@ -62,8 +62,8 @@ async def read_item1(item_id:int):
     return {"item_id": item_id}
 
 #query parameter
-@app.get("/raspberry")
-async def read_item(time:str = datetime.now().strftime("%Y%m%d %H:%M:%S"),light: float = 0.0, temperature: float = 0.0):
+@app.get("/iot")
+async def upload_iot_data(time:str = datetime.now().strftime("%Y%m%d %H:%M:%S"),light: float = 0.0, temperature: float = 0.0):
     conn = create_connection('data.db')
     if conn is not None:
         create_table(conn)
@@ -78,7 +78,7 @@ async def read_item(time:str = datetime.now().strftime("%Y%m%d %H:%M:%S"),light:
 
 #query parameter
 @app.get("/iot_json/{item_count}")
-async def read_item2(item_count:int):
+async def get_iot_json(item_count:int):
     conn = create_connection('data.db')
     if conn is not None:
         create_table(conn)
@@ -87,7 +87,7 @@ async def read_item2(item_count:int):
         return rows
     
 @app.get("/iot_csv/{item_count}")
-async def read_item2(item_count:int):
+async def get_iot_csv(item_count:int):
     conn = create_connection('data.db')
     if conn is not None:
         create_table(conn)

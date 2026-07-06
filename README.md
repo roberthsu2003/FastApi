@@ -24,7 +24,7 @@
 2. 🛣️ **[路徑參數 (Path Parameter)](./02_路徑參數_path_parameter)** - 接收並驗證網址路徑中的參數
 3. 🔍 **[詢問參數 (Query Parameter)](./03_詢問參數_query_parameter)** - 處理 URL 查詢參數與型別自動轉換
 4. 📦 **[Request Body (請求體)](./04_請求體_request_body)** - 利用 Pydantic BaseModel 定義與接收 JSON 資料
-5. 💡 **[實際案例 (Real Cases)](./05_實際案例)** - 結合 SQLite 與 Raspberry Pi 的物聯網 (IoT) 數據上傳專案
+5. 💡 **[實際案例 (Real Cases)](./05_實際案例)** - 結合 SQLite 的物聯網 (IoT) 數據上傳與管理專案
 
 ---
 
