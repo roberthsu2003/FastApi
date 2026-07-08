@@ -161,6 +161,59 @@ async def create_item(item_id:int, item:Item,q:str | None = None):
     return result
 ```
 
+---
+
+## 🛡️ Pydantic `Field` 與 API 文件描述 (`description` & `examples`)
+
+當我們定義 Request Body 的 Pydantic Model 時，我們可以使用 `Field` 類別來限制欄位長度、數值大小，並為每個屬性加入詳細的描述（`description`）與預設範例值（`examples`）。這能讓您的 API 規格極為清晰，並能自動在 Swagger UI 中呈現。
+
+### 範例：使用 `Field` 強化 API 文件
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+
+class Item(BaseModel):
+    name: str = Field(
+        ..., 
+        title="商品名稱", 
+        description="商品的名稱，必填字串", 
+        examples=["經典復古背包"]
+    )
+    description: str | None = Field(
+        None, 
+        title="商品描述", 
+        description="商品的詳細描述資訊，可為空", 
+        examples=["採用防潑水防磨損材質，大容量雙層收納"]
+    )
+    price: float = Field(
+        ..., 
+        gt=0, 
+        title="商品價格", 
+        description="商品售價，必須大於 0 元", 
+        examples=[1980.5]
+    )
+    tax: float | None = Field(
+        None, 
+        ge=0, 
+        title="商品稅金", 
+        description="商品產生的稅金，必須大於或等於 0 元", 
+        examples=[99.0]
+    )
+
+app = FastAPI()
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
+```
+
+### 說明：
+* **`examples=[...]`**：在 Pydantic 中，我們可以傳入一個範例清單。這些值會自動成為 Swagger UI 中測試 JSON 的**預設模板**。當使用者點選 "Try it out" 時，可以直接發送帶有該範例的請求，無須手動填寫複雜的 JSON 物件！
+* **`description`**：會在 Swagger 文件中的 Schema 區塊以備註形式呈現，讓前後端串接的開發人員迅速理解每個欄位的商業定義。
+* **`gt=0` / `ge=0`**：我們能在 `Field` 內直接加入數值範圍約束，發揮強大的資料驗證功能。
+
+
 
 
 

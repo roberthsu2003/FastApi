@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI CORS 跨網域存取測試工具</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(20, 30, 55, 0.6);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            background-image: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+        }
+
+        .container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result-box {
+            margin-top: 30px;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            font-size: 0.9rem;
+            display: none;
+            border: 1px solid transparent;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: #d1fae5;
+        }
+
+        .result-box.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #fee2e2;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .success .status-badge {
+            background: var(--success);
+            color: #064e3b;
+        }
+
+        .error .status-badge {
+            background: var(--error);
+            color: #7f1d1d;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CORS 跨網域存取測試器</h1>
+        <p class="subtitle">雙擊本網頁檔案，可直接向本機運行的 FastAPI 傳送 API 請求。用以親眼見證並測試 CORS 的放行機制。</p>
+
+        <div class="form-group">
+            <label for="apiUrl">FastAPI 伺服器網址 (包含 Port)</label>
+            <input type="text" id="apiUrl" value="http://127.0.0.1:8000" placeholder="例如: http://127.0.0.1:8000">
+        </div>
+
+        <button id="testBtn">發送 Fetch 請求</button>
+
+        <div id="result" class="result-box">
+            <div id="badge" class="status-badge">SUCCESS</div>
+            <p id="msg" style="margin: 0 0 10px 0; font-weight: 600;"></p>
+            <pre id="code"></pre>
+        </div>
+    </div>
+
+    <script>
+        const apiUrlInput = document.getElementById('apiUrl');
+        const testBtn = document.getElementById('testBtn');
+        const resultBox = document.getElementById('result');
+        const badge = document.getElementById('badge');
+        const msg = document.getElementById('msg');
+        const codeElement = document.getElementById('code');
+
+        testBtn.addEventListener('click', async () => {
+            const url = apiUrlInput.value.trim();
+            resultBox.style.display = 'none';
+            resultBox.className = 'result-box';
+            
+            try {
+                // 發送 GET 請求
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                resultBox.classList.add('success');
+                badge.innerText = '連線成功 (CORS 通過)';
+                msg.innerText = `HTTP 狀態碼: ${response.status} ${response.statusText}`;
+                codeElement.innerText = JSON.stringify(data, null, 2);
+            } catch (err) {
+                resultBox.classList.add('error');
+                badge.innerText = '連線失敗 (CORS 攔截)';
+                msg.innerText = '無法存取目標 API。此瀏覽器請求可能已遭 CORS 安全策略攔截！';
+                codeElement.innerText = `錯誤詳細資訊:\n${err.message}\n\n原因解析:\n1. 您的 FastAPI 是否尚未啟動？\n2. 您的 FastAPI 網址/Port 是否填寫正確？\n3. 您的 FastAPI 程式中是否尚未配置 CORSMiddleware？\n4. 您的 CORSMiddleware origins 列表是否未包含此網頁的來源位址？`;
+            }
+        });
+    </script>
+</body>
+</html>

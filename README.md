@@ -27,6 +27,7 @@
 5. 💡 **[實際案例 (Real Cases)](./05_實際案例)** - 結合 SQLite 的物聯網 (IoT) 數據上傳與管理專案
 6. 🔗 **[依賴注入 (Dependency Injection)](./06_依賴注入_dependency_injection)** - 核心機制，重用邏輯與管理資源生命週期
 7. 🛡️ **[跨來源資源共用 (CORS)](./07_跨來源資源共用_cors)** - 解決前後端分離開發時的跨網域請求問題
+8. 🛠️ **[Pydantic 與 FastAPI 整合實務](./08_Pydantic與FastAPI整合實務)** - 結合別名對照、計算屬性、自訂清洗型別與同步磁碟 I/O
 
 ---
 

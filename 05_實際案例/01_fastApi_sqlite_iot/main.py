@@ -5,8 +5,20 @@ from sqlite3 import Error
 from sqlite3 import Connection
 import csv
 from fastapi.responses import FileResponse
+from pydantic import BaseModel, Field
 
 app = FastAPI()
+
+class SensorData(BaseModel):
+    # 使用 Field(default_factory=...) 動態產生時間，這正是 Pydantic 的好處之一
+    time: str = Field(
+        default_factory=lambda: datetime.now().strftime("%Y%m%d %H:%M:%S"),
+        title="感測器數據紀錄時間",
+        description="時間格式為 YYYYMMDD HH:MM:SS，預設為當前系統時間"
+    )
+    light: float = Field(0.0, title="光線亮度", description="光線強度數值")
+    temperature: float = Field(0.0, title="溫度", description="環境攝氏溫度")
+
 
 def create_connection(db_file:str) -> Connection | None:
     conn = None
@@ -61,20 +73,21 @@ def read_root():
 async def read_item1(item_id:int):
     return {"item_id": item_id}
 
-#query parameter
-@app.get("/iot")
-async def upload_iot_data(time:str = datetime.now().strftime("%Y%m%d %H:%M:%S"),light: float = 0.0, temperature: float = 0.0):
+# POST 請求：接收 Request Body JSON 資料並寫入 SQLite 資料庫 (符合 RESTful 規範)
+@app.post("/iot", status_code=201)
+async def upload_iot_data(data: SensorData):
     conn = create_connection('data.db')
     if conn is not None:
         create_table(conn)
-        insert_project(conn, (time,light,temperature))
+        insert_project(conn, (data.time, data.light, data.temperature))
         conn.close()
 
     return {
-        "時間":time,
-        "光線":light,
-        "溫度":temperature
+        "時間": data.time,
+        "光線": data.light,
+        "溫度": data.temperature
     }
+
 
 #query parameter
 @app.get("/iot_json/{item_count}")
