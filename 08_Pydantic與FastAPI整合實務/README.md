@@ -141,6 +141,8 @@ uvicorn main:app --reload
 
 ## 🗂️ 實務案例端點說明
 
+> [實際範例連結](https://github.com/roberthsu2003/python/blob/master/pydantic/README.md)
+
 ### 1. 學生分數 CSV 解析 (`GET /students/scores`)
 * **重點**：讀取 `data/學生分數.csv`。對外 API 將中文科目欄位英文化（例如 `科目1` $\rightarrow$ `chinese`），並使用 `@computed_field` 自動計算總分 `total_score` 呈現於 JSON 回應中。
 
